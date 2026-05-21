@@ -11,6 +11,7 @@ Order
 - react_search_agent
 - agents_under_the_hood
 - rag_gist
+- documentation_helper
 
 
 
