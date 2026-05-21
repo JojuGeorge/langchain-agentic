@@ -21,6 +21,7 @@ os.environ["REQUESTS_CA_BUNDLE"] = certifi.where()
 
 embedding_model = OpenAIEmbeddings(
     model='text-embedding-3-small',
+    api_key=os.environ.get('OPENAI_API_KEY'),
     show_progress_bar=True,
     chunk_size=50,
     retry_min_seconds=10
@@ -36,7 +37,38 @@ tavily_crawl = TavilyCrawl()
 
 
 async def main():
-    pass
+    """Main async function to orchestrate the entire process."""
+    log_header("DOCUMENTATION INGESTION PIPELINE")
+
+    log_info(
+        "🗺️  TavilyCrawl: Starting to crawl the documentation site",
+        Colors.PURPLE,
+    )
+    # Crawl the documentation site
+
+    res = tavily_crawl.invoke({
+        "url": "https://python.langchain.com/",
+        "max_depth": 1,
+        "extract_depth": "advanced"
+    })
+
+    all_docs = []
+    for tavily_crawl_result_item in res["results"]:
+        log_info(
+            f"TavilyCrawl: Successfully crawled {tavily_crawl_result_item['url']} from documentation site"
+        )
+        all_docs.append(Document(
+            page_content=tavily_crawl_result_item["raw_content"],
+            metadata={"source": tavily_crawl_result_item["url"]}
+        ))
+
+     # Split documents into chunks
+    log_header("DOCUMENT CHUNKING PHASE")
+    log_info(
+        f"✂️  Text Splitter: Processing {len(all_docs)} documents with 4000 chunk size and 200 overlap",
+        Colors.YELLOW,
+    )
+
 
 if __name__ == "__main__":
     asyncio.run(main())

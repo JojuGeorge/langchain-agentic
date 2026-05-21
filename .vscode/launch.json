@@ -5,7 +5,9 @@
             "name": "Python Debugger: Python File",
             "type": "debugpy",
             "request": "launch",
-            "program": "${file}"
+            "program": "${file}",
+            "cwd": "D:/UDEMY/LangChain/Coding/langchain-agentic/documentation_helper",
+            "envFile": "D:/UDEMY/LangChain/Coding/langchain-agentic/documentation_helper/.env"
         }
     ]
 }
