@@ -69,6 +69,13 @@ async def main():
         Colors.YELLOW,
     )
 
+    text_splitter = RecursiveCharacterTextSplitter(
+        chunk_size=4000, chunk_overlap=200)
+    splitted_docs = text_splitter.split_documents(all_docs)
+    log_success(
+        f"Text Splitter: Created {len(splitted_docs)} chunks from {len(all_docs)} documents"
+    )
+
 
 if __name__ == "__main__":
     asyncio.run(main())
