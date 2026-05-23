@@ -25,7 +25,7 @@ os.environ["REQUESTS_CA_BUNDLE"] = certifi.where()
 
 embeddings = OpenAIEmbeddings(
     model="text-embedding-3-small",
-    show_progress_bar=False,
+    show_progress_bar=True,
     chunk_size=50,
     retry_min_seconds=10,
 )
